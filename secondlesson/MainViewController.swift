@@ -1,9 +1,7 @@
-//
 //  ViewController.swift
 //  secondlesson
 //
 //  Created by меньков александр on 16.03.2026.
-//
 
 import UIKit
 

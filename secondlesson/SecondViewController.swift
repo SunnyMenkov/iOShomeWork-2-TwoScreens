@@ -40,6 +40,7 @@ class SecondViewController: UIViewController {
         view.backgroundColor = .white
         title = "Name Page"
         
+        setupKeyboardHandling()
         view.addSubview(nameTextField)
         view.addSubview(submitButton)
         
@@ -47,13 +48,17 @@ class SecondViewController: UIViewController {
             nameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nameTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
             
-            
             submitButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             submitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 120),
-            submitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -120),
+            submitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -120)
             
         ])
-
+        nameTextField.delegate = self
+    }
+    
+    private func setupKeyboardHandling() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     @objc private func submitButtonTapped() {
@@ -73,9 +78,16 @@ class SecondViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    
-    
-    
-    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
+// MARK: - UITextFieldDelegate
+extension SecondViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        submitButtonTapped()
+        return true
+    }
+}
